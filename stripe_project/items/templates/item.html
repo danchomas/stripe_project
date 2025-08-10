@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{{ item.name }}</title>
+        <script src="https://js.stripe.com/v3/"></script>
+    </head>
+    <body>
+        <h1>{{ item.name }}</h1>
+        <p>{{ item.description }}</p>
+        <p>Цена: ${{ item.price|floatformat:2 }}</p>
+        <button id="buy-button">Купить</button>
+
+        <script>
+            const stripe = Stripe("{{ stripe_public_key }}");
+            document
+                .getElementById("buy-button")
+                .addEventListener("click", async () => {
+                    const response = await fetch(`/buy/{{ item.id }}/`);
+                    const { session_id } = await response.json();
+                    stripe.redirectToCheckout({ sessionId: session_id });
+                });
+        </script>
+    </body>
+</html>
