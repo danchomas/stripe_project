@@ -11,3 +11,7 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def price_dollars(self):
+        return self.price / 100

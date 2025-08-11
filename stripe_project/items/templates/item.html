@@ -7,7 +7,7 @@
     <body>
         <h1>{{ item.name }}</h1>
         <p>{{ item.description }}</p>
-        <p>Цена: ${{ item.price|floatformat:2 }}</p>
+        <p>Цена: ${{ item.price_dollars|floatformat:2 }}</p>
         <button id="buy-button">Купить</button>
 
         <script>
