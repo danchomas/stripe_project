@@ -3,7 +3,7 @@
 Проект реализует бэкенд для обработки платежей через Stripe API с использованием Django. Позволяет создавать товары, инициировать платежные сессии и обрабатывать результаты оплаты.
 
 ## Приложение доступно онлайн:  
-[https://danchomas.pythonanywhere.com/](https://danchomas.pythonanywhere.com/)
+[https://danchomas.pythonanywhere.com/](https://danchomas.pythonanywhere.com/item/1/)
 
 ### Тестовые данные:
 
