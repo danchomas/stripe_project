@@ -12,17 +12,15 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class PaymentProcessor:
-    """Класс для обработки платежей (Принцип единственной ответственности)"""
     @staticmethod
     def create_payment_session(item: Item) -> stripe.checkout.Session:
-        """Создает платежную сессию Stripe"""
         return stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
                 'price_data': {
                     'currency': 'usd',
                     'product_data': {'name': item.name},
-                    'unit_amount': int(item.price * 100),  # Конвертация в центы
+                    'unit_amount': int(item.price),
                 },
                 'quantity': 1,
             }],
@@ -33,7 +31,6 @@ class PaymentProcessor:
 
 
 class ItemRetrieveView(views.APIView):
-    """Представление для отображения страницы товара (Принцип открытости/закрытости)"""
     @swagger_auto_schema(
         operation_description="Получение страницы товара",
         responses={
@@ -55,7 +52,6 @@ class ItemRetrieveView(views.APIView):
 
     @staticmethod
     def _get_item_or_404(item_id: int) -> Item:
-        """Получает товар или возвращает 404 (Инкапсуляция)"""
         try:
             return Item.objects.get(id=item_id)
         except Item.DoesNotExist:
@@ -63,7 +59,6 @@ class ItemRetrieveView(views.APIView):
 
 
 class PaymentInitiateView(views.APIView):
-    """Инициализация платежа (Принцип разделения интерфейса)"""
     @swagger_auto_schema(
         operation_description="Создание платежной сессии",
         responses={
@@ -83,7 +78,6 @@ class PaymentInitiateView(views.APIView):
 
     @staticmethod
     def _get_item_or_404(item_id: int) -> Item:
-        """Получает товар или возвращает 404"""
         try:
             return Item.objects.get(id=item_id)
         except Item.DoesNotExist:
@@ -91,7 +85,6 @@ class PaymentInitiateView(views.APIView):
 
 
 class PaymentSuccessView(views.APIView):
-    """Представление успешной оплаты (Принцип подстановки Барбары Лисков)"""
     @swagger_auto_schema(
         operation_description="Страница успешной оплаты",
         responses={200: "HTML страница"}
@@ -101,7 +94,6 @@ class PaymentSuccessView(views.APIView):
 
 
 class PaymentCancelView(views.APIView):
-    """Представление отмены оплаты (Принцип подстановки)"""
     @swagger_auto_schema(
         operation_description="Страница отмены оплаты",
         responses={200: "HTML страница"}

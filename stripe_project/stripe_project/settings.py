@@ -11,10 +11,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "danchomas.pythonanywhere.com"
+]
 
 
 INSTALLED_APPS = [
@@ -25,7 +26,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "items",
+    'drf_yasg',
 ]
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Basic': {
+            'type': 'basic'
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,5 +104,8 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+
+PAYMENT_SUCCESS_URL = 'http://localhost:8000/success/'
+PAYMENT_CANCEL_URL = 'http://localhost:8000/cancel/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
